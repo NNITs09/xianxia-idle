@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xianxia Idle - DEMO</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Xianxia Idle - DEMO</h1>
+  </header>
+  <main class="wrap">
+    <section class="card">
+      <h2>Cultivator State</h2>
+      <div class="body">
+        <div class="stat big" id="qiDisplay">Qi: 0</div>
+        <div class="stat"><span>Qi per click</span><span id="qpc">0</span></div>
+        <div class="stat"><span>Qi per second</span><span id="qps">0</span></div>
+        <div class="stat"><span>Offline multiplier</span><span id="offlineMult">1×</span></div>
+        <hr style="border-color:#1e2631"/>
+        <div>
+          <div class="stat"><span>Realm</span><span id="realmName"></span></div>
+          <div class="stat"><span>Stage</span><span id="realmStage"></span></div>
+          <div class="progress"><div id="realmProg"></div></div>
+          <div class="small muted" id="realmReqText">Requirement to advance: —</div>
+          <div class="row" style="margin-top:10px">
+            <button id="breakthroughBtn" class="btn accent" disabled>Break the bottleneck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Cultivation Zone</h2>
+      <div class="body">
+        <div class="click-area">
+          <div id="clickBtn" class="cultivator-wrap" role="button" tabindex="0" aria-label="Cultivar (clic)">
+          <img src="assets/cultivator.jpg" alt="Cultivador meditando" class="cultivator-img" />
+          <div class="halo"></div>
+        </div>
+      </div>
+        <div class="row" style="margin-top:14px">
+          <button id="saveBtn" class="btn">Save <span class="kbd">Ctrl+S</span></button>
+          <button id="exportBtn" class="btn">Export</button>
+          <button id="importBtn" class="btn">Import</button>
+          <button id="resetBtn" class="btn danger">Reset</button>
+        </div>
+        <div class="muted small" id="lastSave">Last Save: —</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Skills</h2>
+      <div class="body" id="shop"></div>
+    </section>
+  </main>
+
+  <section class="card" style="margin:0 16px 16px 16px">
+    <h2>Export / Import</h2>
+    <div class="body">
+      <textarea id="ioArea" placeholder="Paste your save code here or copy the export"></textarea>
+      <div class="footer">
+        <span class="muted small">Data is automatically saved every 15s in this browser</span>
+        <span class="muted small">version: <span id="ver"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <script defer src="js/main.js"></script>
+</body>
+</html>
