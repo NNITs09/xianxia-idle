@@ -5,8 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Xianxia Idle - DEMO</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+  html, body {
+    height: auto;
+    overflow-y: auto;
+  }
+  #itch-scroll {
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+</style>
 </head>
 <body>
+  <div id="itch-scroll">
   <header>
     <h1>Xianxia Idle - DEMO</h1>
   </header>
@@ -66,7 +78,7 @@
       </div>
     </div>
   </section>
-
+    </div>
   <script defer src="js/main.js"></script>
 </body>
 </html>
