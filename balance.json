@@ -1,0 +1,26 @@
+{
+  "skills": {
+    "breath_control":   { "base": 0.60, "cost": 25,  "costScale": 1.23 },
+    "meridian_flow":    { "base": 1.00, "cost": 55,  "costScale": 1.28 },
+    "lotus_meditation": { "base": 0.15, "cost": 180, "costScale": 1.38 },
+    "dantian_temps":    { "base": 0.10, "cost": 140, "costScale": 1.36 },
+    "closed_door":      { "base": 0.20, "cost": 200, "costScale": 1.40 }
+  },
+  "stageRequirement": {
+    "realmBase": 100,
+    "realmBaseScale": 28,
+    "stageScale": 1.52
+  },
+  "progression": {
+    "qpcBaseStart": 1,
+    "qpsBaseStart": 0,
+    "realmAdvanceReward": { "qpcBaseAdd": 1.5, "qpsBaseAdd": 0.9 }
+  },
+  "reincarnation": {
+    "karmaPerUnit": 0.05,
+    "lifetimeQiDivisor": 1000,
+    "realmKarmaFactor": 2,
+    "minKarma": 1
+  },
+  "offline": { "capHours": 12 }
+}
