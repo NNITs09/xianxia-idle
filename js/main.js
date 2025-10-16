@@ -1,4 +1,4 @@
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const SAVE_KEY = 'xianxiaIdleSaveV1';
 const REALM_SKILL_BONUS = 0.12; // +12% per realm
 
