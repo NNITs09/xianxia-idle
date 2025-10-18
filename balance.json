@@ -8,8 +8,8 @@
   },
   "stageRequirement": {
     "realmBase": 100,
-    "realmBaseScale": 28,
-    "stageScale": 1.52
+    "realmBaseScale": 15,
+    "stageScale": 1.45
   },
   "progression": {
     "qpcBaseStart": 1,
@@ -17,10 +17,33 @@
     "realmAdvanceReward": { "qpcBaseAdd": 1.5, "qpsBaseAdd": 0.9 }
   },
   "reincarnation": {
-    "karmaPerUnit": 0.05,
-    "lifetimeQiDivisor": 1000,
-    "realmKarmaFactor": 2,
-    "minKarma": 1
+    "karmaPerUnit": 0.07,
+    "lifetimeQiDivisor": 8000,
+    "realmKarmaFactor": 3,
+    "minKarma": 2,
+    "deathPenalty": 0.5
   },
-  "offline": { "capHours": 12 }
+  "offline": { "capHours": 12 },
+  "lifespan": {
+    "realmMaxLifespan": [100, 200, 500, 1000, 3000, 10000, 30000, 100000, 300000, null],
+    "yearsPerSecond": 1.0
+  },
+  "timeSpeed": {
+    "speeds": [0, 0.5, 1, 2, 4, 6, 8, 10],
+    "unlockRealmIndex": [0, 0, 0, 2, 4, 6, 8, 9]
+  },
+  "cycleDefinitions": {
+    "mortal": { 
+      "realms": [0, 1, 2, 3, 4], 
+      "realmBonus": 0.20,
+      "name": "Mortal Cycle",
+      "description": "The journey of mortal cultivation"
+    },
+    "spirit": { 
+      "realms": [5, 6, 7, 8, 9], 
+      "realmBonus": 0.40,
+      "name": "Spirit Cycle", 
+      "description": "The celestial path of divine cultivation"
+    }
+  }
 }

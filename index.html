@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Xianxia Idle V1.0.1</title>
+  <title>Xianxia Idle V1.2.0</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
   html, body {
@@ -19,9 +19,52 @@
 </head>
 <body>
   <div id="itch-scroll">
-  <header>
-    <h1>Xianxia Idle V1.0.1</h1>
+  <header class="topbar">
+    <h1>Xianxia Idle V1.2.0</h1>
+    <div style="display: flex; gap: 12px;">
+      <button id="achievementsBtn" class="btn topbar-btn" aria-haspopup="true" aria-expanded="false">
+        🏆 Achievements <span id="achievementsBadge">0/0</span>
+      </button>
+      <button id="settingsBtn" class="settings-btn btn" aria-haspopup="true" aria-expanded="false">Settings</button>
+    </div>
   </header>
+  
+  <!-- Settings Panel -->
+  <div id="settingsPanel" class="settings-panel" aria-hidden="true">
+    <h3 style="margin:0 0 8px 0;">Audio</h3>
+    <div class="settings-row">
+      <label for="musicVolume">Volume</label>
+      <input id="musicVolume" type="range" min="0" max="100" value="40" />
+    </div>
+    <div class="settings-row">
+      <label for="musicMuteToggle">Mute</label>
+      <button id="musicMuteToggle" class="btn">Mute</button>
+    </div>
+    <div class="settings-note" id="trackInfo">Track 1/7</div>
+    <div class="settings-note" id="autoplayNote" style="display:none;">Autoplay blocked — unmute or interact to start.</div>
+  </div>
+
+  <!-- Achievements Panel -->
+  <div id="achievementsPanel" class="achievements-panel" aria-hidden="true">
+    <div class="achievements-header">
+      <h3 class="achievements-title">🏆 Achievements</h3>
+      <button id="achievementsClose" class="achievements-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="achievements-filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="unlocked">Unlocked</button>
+      <button class="filter-btn" data-filter="locked">Locked</button>
+      <button class="filter-btn" data-filter="Progression">Progress</button>
+      <button class="filter-btn" data-filter="Skills">Skills</button>
+      <button class="filter-btn" data-filter="Reincarnation">Rebirth</button>
+      <button class="filter-btn" data-filter="Time">Time</button>
+      <button class="filter-btn" data-filter="Misc">Misc</button>
+      <button class="filter-btn impossible-filter" data-filter="Impossible">Impossible</button>
+    </div>
+    <div id="achievementsList" class="achievements-list">
+      <!-- Achievements will be populated by JavaScript -->
+    </div>
+  </div>
   <main class="wrap">
     <section class="card">
       <h2>Cultivator State</h2>
@@ -30,10 +73,38 @@
         <div class="stat"><span>Qi per click</span><span id="qpc">0</span></div>
         <div class="stat"><span>Qi per second</span><span id="qps">0</span></div>
         <div class="stat"><span>Offline multiplier</span><span id="offlineMult">1×</span></div>
+        <div class="stat" id="lifespanRow">
+          <span class="label">Lifespan</span>
+          <span id="lifespanValue">0.00 / 100.00</span>
+        </div>
+        <div style="margin: 4px 0;">
+          <div class="progress" id="lifespanProgress"><div></div></div>
+        </div>
+        <div class="stat"><span>Deaths</span><span id="deathsCount">0</span></div>
         <div class="stat"><span>Karma</span><span id="karmaVal">0</span></div>
         <div class="stat"><span>Reincarnation bonus</span><span id="reincBonus">1.00×</span></div>
         <div class="stat"><span>Reincarnations</span><span id="reincTimes">0</span></div>
+        <div class="stat" id="transcendenceStatus" style="display: none;"><span>Transcendence</span><span style="color: var(--accent);">✨ Unlocked</span></div>
         <div class="small muted" style="margin-top: 4px; text-align: center;">Each reincarnation permanently increases your cultivation efficiency.</div>
+        
+        <!-- Cultivation Cycle Display -->
+        <hr style="border-color:#1e2631; margin: 12px 0 8px 0;"/>
+        <div class="stat">
+          <span>Current Cycle</span>
+          <span id="currentCycle" style="color: var(--accent-2);">Mortal Cycle</span>
+        </div>
+        <div class="stat">
+          <span>Realm Bonus</span>
+          <span id="realmBonus" style="color: var(--accent);">+0%</span>
+        </div>
+        
+        <!-- Time Speed Control -->
+        <hr style="border-color:#1e2631; margin: 12px 0 8px 0;"/>
+        <div class="stat">
+          <span>⏱ Time Flow</span>
+          <div id="speedButtons" class="speed-buttons"></div>
+        </div>
+        
         <hr style="border-color:#1e2631"/>
         <div>
           <div class="stat"><span>Realm</span><span id="realmName"></span></div>
@@ -52,7 +123,7 @@
       <div class="body">
         <div class="click-area">
           <div id="clickBtn" class="cultivator-wrap" role="button" tabindex="0" aria-label="Cultivar (clic)">
-          <img src="assets/cultivator.jpg" alt="Cultivador meditando" class="cultivator-img" />
+          <img src="assets/cultivator.jpg" alt="Cultivador meditando" class="cultivator-img cultivator-image" id="cultivatorImg" />
           <div class="halo"></div>
         </div>
       </div>
@@ -83,6 +154,10 @@
     </div>
   </section>
     </div>
+  
+  <!-- Background Music -->
+  <audio id="bgm" preload="auto"></audio>
+  
   <script defer src="js/main.js"></script>
 </body>
 </html>
