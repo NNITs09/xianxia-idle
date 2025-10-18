@@ -20,7 +20,7 @@
     "stageScale": 1.42
   },
   "progression": {
-    "qpcBaseStart": 1000,
+    "qpcBaseStart": 1,
     "qpsBaseStart": 0,
     "realmAdvanceReward": { "qpcBaseAdd": 2.5, "qpsBaseAdd": 1.8 }
   },
