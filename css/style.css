@@ -47,22 +47,183 @@ h1{font-size:20px;margin:0}
 .btn.accent{border-color:#3a3553;background:#120f1a;color:var(--accent-2)}
 .btn.danger{border-color:#4a1e1e;background:#1a0f0f;color:var(--danger)}
 .row{display:flex;gap:10px;flex-wrap:wrap}
-.click-area{
-  display:grid;
-  place-items:center;
-  height: clamp(340px, 48vh, 560px);
-  background:none;
-  border:none;
-  border-radius:0;
-  padding:8px 0;
+/* Cultivation Zone - centered with no extra space */
+#cultivationZone.cz {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px 0;
 }
-.click-spot{width:140px;height:140px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#111a23,#0c141d);border:1px solid #2a3748;box-shadow:inset 0 0 0 2px rgba(126,231,135,.1),0 10px 30px rgba(0,0,0,.35)}
-.click-spot .inner{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 50%,rgba(126,231,135,.15),rgba(126,231,135,.02));font-weight:800}
+
+/* The single, authoritative size for the cultivator image */
+.cultivator-frame {
+  position: relative;
+  width: clamp(320px, 38vw, 560px);  /* responsive but capped */
+  aspect-ratio: 1 / 1;               /* perfect square */
+  border-radius: 16px;
+  background: linear-gradient(180deg, #111a23, #0c141d);
+  border: 1px solid #2a3748;
+  box-shadow: inset 0 0 0 2px rgba(126,231,135,.08), 0 10px 30px rgba(0,0,0,.35);
+  overflow: hidden;                   /* clip child corners */
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+
+.cultivator-frame:hover {
+  transform: translateY(-2px);
+}
+
+.cultivator-frame:active {
+  transform: translateY(0);
+}
+
+.cultivator-frame.pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  box-shadow: 0 0 0 0 rgba(100,180,255,.45);
+  animation: pulseRing .7s ease-out;
+  pointer-events: none;
+}
+
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0 rgba(100,180,255,.45); }
+  70%  { box-shadow: 0 0 0 18px rgba(100,180,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(100,180,255,0); }
+}
+
+/* Make the image perfectly fill the frame without stretching */
+#cultivatorImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Keep the cycle badge inside the image, bottom-left */
+.cycle-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(18, 25, 35, 0.85);
+  border: 1px solid rgba(126, 231, 135, 0.3);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  backdrop-filter: blur(4px);
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.cycle-badge.cycle-mortal {
+  color: var(--accent);
+  border-color: rgba(126, 231, 135, 0.4);
+}
+
+.cycle-badge.cycle-spirit {
+  color: var(--accent-2);
+  border-color: rgba(161, 138, 255, 0.4);
+}
+
+/* Legacy cleanup - remove old sizing rules */
+.click-area,
+.cultivator-wrap,
+.cultivator-img {
+  /* These classes are now deprecated - frame controls all sizing */
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+/* Blue halo click animation */
+.halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 0 rgba(109, 178, 255, 0.55);
+  animation: halo-pulse 550ms ease-out forwards;
+  z-index: 2;
+}
+
+@keyframes halo-pulse {
+  0% {
+    width: 0;
+    height: 0;
+    box-shadow: 0 0 0 0 rgba(109, 178, 255, 0.55);
+    opacity: 1;
+  }
+  60% {
+    width: 88%;
+    height: 88%;
+    box-shadow: 0 0 24px 10px rgba(109, 178, 255, 0.35);
+    opacity: 0.85;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 0 0 rgba(109, 178, 255, 0);
+    opacity: 0;
+  }
+}
+
 .shop-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border:1px solid #223043;border-radius:12px;margin-bottom:10px;background:linear-gradient(180deg,#0e151e,#0b1118)}
 .shop-item h4{margin:0;font-size:14px}
 .shop-item .desc{font-size:12px;color:var(--muted)}
 .skill-icon{width:40px;height:40px;border-radius:8px;margin-right:8px;object-fit:cover;flex-shrink:0}
 .shop-item > div:first-child{display:flex;align-items:center}
+
+/* Bulk Buying UI */
+.bulk-selector {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.bulk-btn {
+  padding: 3px 6px;
+  font-size: 11px;
+  border-radius: 6px;
+  border: 1px solid #263140;
+  background: var(--panel-2);
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+  min-width: 38px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.bulk-btn:hover {
+  background: var(--panel);
+  border-color: var(--accent);
+}
+
+.bulk-btn.active {
+  border-color: var(--accent);
+  background: rgba(126, 231, 135, 0.15);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.bulk-cost {
+  margin-top: 2px;
+  font-weight: 500;
+}
+
 .progress{height:10px;background:#11161e;border:1px solid #263140;border-radius:999px;overflow:hidden}
 .progress > div{height:100%;background:linear-gradient(90deg, #4fc3f7, #80d8ff);width:0%}
 
@@ -74,47 +235,16 @@ h1{font-size:20px;margin:0}
 .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#0d1520;border:1px solid #243142;border-radius:6px;padding:1px 6px}
 .footer{display:flex;justify-content:space-between;align-items:center;gap:10px}
 textarea{width:100%;min-height:110px;background:#0b1118;color:var(--text);border:1px solid #223043;border-radius:12px;padding:10px;font-family:ui-monospace}
-.cultivator-wrap{
-  position:relative;
-  display:grid;
-  place-items:center;
-  width:clamp(220px, 28vw, 360px);
-  padding:12px;                   /* marco interno */
-  border-radius:16px;
-  background:linear-gradient(180deg,#111a23,#0c141d);
-  border:1px solid #2a3748;
-  box-shadow:inset 0 0 0 2px rgba(126,231,135,.08), 0 10px 30px rgba(0,0,0,.35);
-  cursor:pointer;
-  transition:transform .15s ease, box-shadow .2s ease;
-}
-.cultivator-wrap:hover{ transform: translateY(-2px); }
-.cultivator-wrap:active{ transform: translateY(0); }
 
-.cultivator-wrap.pulse::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:16px;
-  box-shadow: 0 0 0 0 rgba(100,180,255,.45);
-  animation: pulseRing .7s ease-out;
-  pointer-events:none;
+/* Cultivator image animations */
+.cultivator-image,
+#cultivatorImg {
+  transition: opacity 0.5s ease-in-out;
 }
 
-@keyframes pulseRing{
-  0%   { box-shadow: 0 0 0 0 rgba(100,180,255,.45); }
-  70%  { box-shadow: 0 0 0 18px rgba(100,180,255,0); }
-  100% { box-shadow: 0 0 0 0 rgba(100,180,255,0); }
-}
-
-/* Que la imagen se vea completa dentro del marco (sin recortar) */
-.cultivator-img{
-  max-width: 100%;
-  height: auto;
-  border-radius: 16px;
-  width:100%;
-  object-fit:contain;   /* que entre completa */
-  user-select:none;
-  pointer-events:none;  /* para que el click llegue al contenedor */
+.cultivator-image.fade-out,
+#cultivatorImg.fade-out {
+  opacity: 0;
 }
 
 /* Mobile accessibility - responsive layout for small screens */
@@ -123,6 +253,12 @@ textarea{width:100%;min-height:110px;background:#0b1118;color:var(--text);border
     grid-template-columns: 1fr;
     gap: 12px;
     padding: 12px;
+  }
+  
+  /* Scale down cultivator frame on mobile */
+  .cultivator-frame {
+    width: 88vw;
+    max-width: 420px;
   }
   
   .btn {
@@ -139,9 +275,23 @@ textarea{width:100%;min-height:110px;background:#0b1118;color:var(--text);border
     width: 100%;
   }
   
-  .shop-item button {
-    margin-top: 8px;
+  .shop-item > div:last-child {
     width: 100%;
+  }
+  
+  .shop-item button.buy-btn {
+    margin-top: 4px;
+    width: 100%;
+  }
+  
+  .bulk-selector {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .bulk-btn {
+    flex: 1;
+    min-width: 45px;
   }
   
   h1 {
@@ -647,4 +797,83 @@ body[data-modal-open="1"] {
 
 .cycle-spirit {
     color: #a18aff !important;
+}
+
+/* Transcendence Panel Badges */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge.locked {
+    background: #404040;
+    color: #cccccc;
+    border: 1px solid #555;
+}
+
+.badge.unlocked {
+    background: var(--accent);
+    color: #0b0f14;
+    border: 1px solid var(--accent);
+}
+
+/* Skill Shop Badges */
+.one-time-badge {
+  display: inline-block;
+  color: var(--accent-2);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  background: rgba(161, 138, 255, 0.15);
+  border: 1px solid rgba(161, 138, 255, 0.3);
+  border-radius: 4px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.purchased-badge {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  background: rgba(126, 231, 135, 0.15);
+  border: 1px solid rgba(126, 231, 135, 0.3);
+  border-radius: 4px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#transcendencePanel {
+    padding: 8px 12px;
+    background: rgba(18, 25, 35, 0.5);
+    border: 1px solid #1e2631;
+    border-radius: 8px;
+}
+
+#transcendencePanel h4 {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: var(--accent-2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#transcendencePanel .transcendence-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+#btnReincNow {
+    margin-top: 8px;
+    width: 100%;
 }
